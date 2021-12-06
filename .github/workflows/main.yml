@@ -31,7 +31,7 @@ jobs:
 
       # Runs linter
       - name: Run lint
-        run: yarn run api:lint
+        run: yarn run lint
 
   tests:
     needs: [lint]
