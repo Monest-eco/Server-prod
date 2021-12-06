@@ -1,0 +1,9 @@
+.github/
+build/
+dist/
+.idea/
+.vscode/
+.git/
+.gitignore
+.gitmodules
+.DS_Store
