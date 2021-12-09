@@ -1,6 +1,8 @@
 import { Device, FakeData } from './../@types/fakeData';
+import * as fs from 'fs';
 
 export function generateFakeData(interval: number, device: Device): void {
+  const datas: FakeData[] = [];
   let deviceId = 0;
   // it's true if device is started
   let status = true;
@@ -24,6 +26,12 @@ export function generateFakeData(interval: number, device: Device): void {
       name: device.name,
       time: new Date().getTime(),
     };
-    console.log(fakeData);
+    datas.push(fakeData);
   }, interval);
+  process.on('SIGINT', () => {
+    fs.writeFileSync(
+      `./data/data_${device.name}.json`,
+      JSON.stringify(datas, null, 2),
+    );
+  });
 }
