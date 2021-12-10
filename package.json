@@ -1,7 +1,7 @@
 {
-  "name": "mn-server",
+  "name": "monest-server",
   "version": "0.0.1",
-  "description": "",
+  "description": "monest eco server",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -24,10 +24,13 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^5.1.5",
     "faker": "^5.5.3",
+    "mqtt": "^4.2.8",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.2.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

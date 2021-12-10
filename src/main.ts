@@ -1,10 +1,29 @@
+import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { devicesName } from '../@types/fakeData';
 import { AppModule } from './app.module';
 import { generateFakeData } from './fakeData';
+import { description, version, name } from './../package.json';
+
+/**
+ * Generate swagger documenation
+ * @param app Nest application
+ */
+function generateSwaggerDoc(app: INestApplication): void {
+  const config = new DocumentBuilder()
+    .setTitle(name)
+    .setDescription(description)
+    .setVersion(version)
+    .addTag('api')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('/swagger', app, document);
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  generateSwaggerDoc(app);
   await app.listen(process.env.PORT || 8080);
 }
 
