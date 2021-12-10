@@ -3,6 +3,7 @@ export interface FakeData {
   intensity: number;
   time: Date | number;
   name: string;
+  status: string;
 }
 
 export interface Device {

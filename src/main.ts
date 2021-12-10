@@ -10,6 +10,7 @@ async function bootstrap() {
 
 if (process.env.STATUS === 'data') {
   for (const item of devicesName) {
+    console.log(`=> Generating data for ${item.name}`);
     generateFakeData(1000, item);
   }
 } else {

@@ -1,18 +1,30 @@
 import { Device, FakeData } from './../@types/fakeData';
 import * as fs from 'fs';
 
+function getTimeInterval(status: boolean, device: Device): number {
+  return status ? device.interval_on : device.interval_off;
+}
+
+/**
+ * generate fake data for one device
+ * @param interval number of minutes between each data point
+ * @param device actual device
+ */
 export function generateFakeData(interval: number, device: Device): void {
   const datas: FakeData[] = [];
   let deviceId = 0;
   // it's true if device is started
+  // manage device status
   let status = true;
-  setInterval(
-    () => {
+  const deviceInterval = setInterval(() => {
+    status = !status;
+    clearInterval(deviceInterval);
+    setInterval(() => {
       status = !status;
-    },
-    status ? device.interval_on : device.interval_off,
-  );
-  setInterval(() => {
+    }, getTimeInterval(status, device));
+  }, getTimeInterval(status, device));
+  // generate datas
+  const generateTimer = setInterval(() => {
     const fakeData: FakeData = {
       id: ++deviceId,
       intensity: status
@@ -25,13 +37,18 @@ export function generateFakeData(interval: number, device: Device): void {
           ),
       name: device.name,
       time: new Date().getTime(),
+      status: status ? 'on' : 'off',
     };
+    console.log(fakeData);
     datas.push(fakeData);
   }, interval);
+  // write datas to file
   process.on('SIGINT', () => {
     fs.writeFileSync(
       `./data/data_${device.name}.json`,
       JSON.stringify(datas, null, 2),
     );
+    clearInterval(generateTimer);
+    process.exit();
   });
 }
