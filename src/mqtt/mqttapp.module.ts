@@ -9,7 +9,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'MQTT_SERVICE',
         transport: Transport.MQTT,
         options: {
-          url: 'mqtt://localhost:1883',
+          url: 'mqtt://cyrilserver.ddns.net:25565',
         },
       },
     ]),

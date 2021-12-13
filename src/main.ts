@@ -5,6 +5,7 @@ import { devicesName } from './@types/fakeData';
 import { AppModule } from './app.module';
 import { generateFakeData } from './fakeData';
 import { description, version, name } from './../package.json';
+import { MQTTClient } from './mqtt/main';
 
 /**
  * Generate swagger documenation
@@ -32,6 +33,8 @@ if (process.env.STATUS === 'data') {
     console.log(`=> Generating data for ${item.name}`);
     generateFakeData(1000, item);
   }
+} else if (process.env.STATUS === 'mqtt') {
+  MQTTClient();
 } else {
   bootstrap();
 }
