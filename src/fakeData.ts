@@ -1,4 +1,4 @@
-import { Device, FakeData } from './../@types/fakeData';
+import { Device, FakeData } from './@types/fakeData';
 import * as fs from 'fs';
 
 function getTimeInterval(status: boolean, device: Device): number {
@@ -39,7 +39,6 @@ export function generateFakeData(interval: number, device: Device): void {
       time: new Date().getTime(),
       status: status ? 'on' : 'off',
     };
-    console.log(fakeData);
     datas.push(fakeData);
   }, interval);
   // write datas to file
@@ -49,6 +48,5 @@ export function generateFakeData(interval: number, device: Device): void {
       JSON.stringify(datas, null, 2),
     );
     clearInterval(generateTimer);
-    process.exit();
   });
 }

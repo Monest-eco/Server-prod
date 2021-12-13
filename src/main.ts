@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { devicesName } from '../@types/fakeData';
+import { devicesName } from './@types/fakeData';
 import { AppModule } from './app.module';
 import { generateFakeData } from './fakeData';
 import { description, version, name } from './../package.json';
