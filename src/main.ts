@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { devicesName } from '../@types/fakeData';
+import { devicesName } from './@types/fakeData';
 import { AppModule } from './app.module';
 import { generateFakeData } from './fakeData';
 

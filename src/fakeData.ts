@@ -1,4 +1,4 @@
-import { Device, FakeData } from './../@types/fakeData';
+import { Device, FakeData } from './@types/fakeData';
 import * as fs from 'fs';
 
 function getTimeInterval(status: boolean, device: Device): number {
