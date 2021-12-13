@@ -1,6 +1,5 @@
 import { Device, FakeData } from './../@types/fakeData';
 import * as fs from 'fs';
-import * as path from 'path';
 
 function getTimeInterval(status: boolean, device: Device): number {
   return status ? device.interval_on : device.interval_off;
