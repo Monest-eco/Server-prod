@@ -6,17 +6,17 @@ export class Esp32Entity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column()
-  // // @IsDefined({ always: true })
-  // // @IsNumber()
-  // user_id: number;
+  @Column()
+  @IsDefined({ always: true })
+  @IsNumber()
+  user_id: number;
 
   @Column()
+  @IsDefined({ always: true })
   data_esp32: number;
-  // @IsDefined({ always: true })
 
-  // @Column()
-  // // @IsDefined({ always: true })
-  // // @IsDate()
-  // date_esp32: number;
+  @Column()
+  @IsDefined({ always: true })
+  @IsDate()
+  date_esp32: Date;
 }

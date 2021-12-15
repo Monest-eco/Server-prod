@@ -47,7 +47,7 @@ export async function MQTTClient() {
   client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString());
     const data: Esp32Data = {
-      date: Date.now(),
+      date: new Date(),
       watt: parseInt(payload.toString(), 10),
     };
     esp.create(data);
