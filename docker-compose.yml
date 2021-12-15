@@ -15,6 +15,9 @@ services:
       - .:/app
     environment:
       PORT: 8080
+      STATUS: "prod"
+      TYPE: "mqtt"
+    command: "yarn start"
 
   pgadmin:
     image: dpage/pgadmin4:4.28
