@@ -27,6 +27,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.1.5",
     "class-validator": "^0.13.2",
+    "dotenv": "^10.0.0",
     "faker": "^5.5.3",
     "mqtt": "^4.2.8",
     "pg": "^8.7.1",

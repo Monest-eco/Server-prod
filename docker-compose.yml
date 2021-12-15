@@ -40,7 +40,7 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - database.env # configure postgres
+      - .env # configure postgres
     volumes:
       - database-data:/var/lib/postgresql/data # persist data
       - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql # create tables

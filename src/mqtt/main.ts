@@ -1,30 +1,10 @@
 import * as mqtt from 'mqtt';
 import { Esp32Data } from 'src/@types/esp32';
-import { Esp32Entity } from 'src/esp32/esp32';
 import { Esp32Service } from 'src/esp32/esp32.service';
-import { createConnection, Connection } from 'typeorm';
+import { connectToDatabase } from './database/connect';
 
 const host = 'cyrilserver.ddns.net';
 const port = '25565';
-let connection: Connection;
-
-async function connectToDatabase() {
-  try {
-    connection = await createConnection({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'dashboard',
-      entities: [Esp32Entity],
-      name: 'monest',
-    });
-    console.log('Connected to database');
-  } catch (err) {
-    console.error('error: ', err);
-  }
-}
 
 /**
  * Create and run MQTT client
