@@ -34,3 +34,6 @@ data/data*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# private datas
+.env

@@ -1,20 +1,7 @@
 import * as mqtt from 'mqtt';
-
-/**
- * Create and run MQTT server with nest
- */
-// export async function MQTTServer(): Promise<void> {
-//   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-//     MqttAppModule,
-//     {
-//       transport: Transport.MQTT,
-//       options: {
-//         url: 'mqtt://cyrilserver.ddns.net:25565',
-//       },
-//     },
-//   );
-//   app.listen();
-// }
+import { Esp32Data } from 'src/@types/esp32';
+import { Esp32Service } from 'src/esp32/esp32.service';
+import { connectToDatabase } from './database/connect';
 
 const host = 'cyrilserver.ddns.net';
 const port = '25565';
@@ -22,7 +9,9 @@ const port = '25565';
 /**
  * Create and run MQTT client
  */
-export function MQTTClient(): void {
+export async function MQTTClient() {
+  await connectToDatabase();
+  const esp = new Esp32Service();
   const client = mqtt.connect(`mqtt://${host}:${port}`, {
     clean: true,
     connectTimeout: 4000,
@@ -37,5 +26,10 @@ export function MQTTClient(): void {
   });
   client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString());
+    const data: Esp32Data = {
+      date: new Date(),
+      watt: parseInt(payload.toString(), 10),
+    };
+    esp.create(data);
   });
 }
