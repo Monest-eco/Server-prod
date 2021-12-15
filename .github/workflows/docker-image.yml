@@ -27,8 +27,6 @@ jobs:
 
               PGADMIN_DEFAULT_EMAIL=foo@bar.com
               PGADMIN_DEFAULT_PASSWORD=foo" >> .env
-    - name: Check .env file
-      run: cat .env
 
     - name: Build the Docker image
       uses: sudo-bot/action-docker-compose@latest
