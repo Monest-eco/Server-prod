@@ -5,9 +5,11 @@ import { generateFakeData } from './fakeData';
 import { MQTTClient } from './mqtt/main';
 import { config } from 'dotenv';
 import { generateSwaggerDoc } from './swagger/swagger';
+import { MonestError } from './errors/monestError';
 
 // Get env variables
 config();
+MonestError.checkEnvValue();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
