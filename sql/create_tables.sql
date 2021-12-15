@@ -22,12 +22,12 @@ CREATE TABLE IF NOT EXISTS user_role (
 );
 
 --- Creatation of data esp32 for each user table
-CREATE TABLE IF NOT EXISTS Esp32Entity (
+CREATE TABLE IF NOT EXISTS data_esp32 (
   id SERIAL NOT NULL,
-  user_id INTEGER NOT NULL,
-  data_esp32 float(2) NOT NULL,
-  date_esp32 TIMESTAMP NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (user_id) 
-      REFERENCES users (id)
+  -- user_id INTEGER NOT NULL,
+  data_esp32 INTEGER NOT NULL,
+  -- date_esp32 TIMESTAMP NOT NULL,
+  PRIMARY KEY (id)
+  -- FOREIGN KEY (user_id) 
+  --     REFERENCES users (id)
 );
