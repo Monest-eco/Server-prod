@@ -14,14 +14,14 @@ export class Esp32Service {
   }
 
   public create(data: Esp32Data) {
-    console.log('create', data);
     try {
-      const res = this.esp32Repository.save({
-        data_esp32: data.watt,
-        user_id: 1,
-        date_esp32: data.date,
-      });
-      console.log('res: ', res);
+      this.esp32Repository
+        .save({
+          data_esp32: data.watt,
+          user_id: 1,
+          date_esp32: data.date,
+        })
+        .then((_data) => console.log('✅ => data save'));
     } catch (error) {
       console.log('error: ', error);
     }
