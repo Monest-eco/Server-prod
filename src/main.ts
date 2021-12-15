@@ -15,13 +15,13 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 8080);
 }
 
-if (process.env.STATUS === 'data') {
+if (process.env.TYPE === 'data') {
   console.log('🚀 => Starting fake data...');
   for (const item of devicesName) {
     console.log(`=> Generating data for ${item.name}`);
     generateFakeData(1000, item);
   }
-} else if (process.env.STATUS === 'mqtt') {
+} else if (process.env.TYPE === 'mqtt') {
   console.log('🚀 => Starting MQTT client...');
   MQTTClient();
 } else {
