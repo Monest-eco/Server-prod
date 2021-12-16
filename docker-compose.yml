@@ -1,10 +1,28 @@
 version: '3'
 
 services:
-  mn-server:
+  mn-server-mqtt:
     build: .
-    container_name: mn-server
-    image: mn-server
+    container_name: mn-server-mqtt
+    image: mn-server-mqtt
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    ports:
+      - "8085:8080"
+    volumes:
+      - .:/app
+    environment:
+      PORT: 8080
+      STATUS: "prod"
+      TYPE: "mqtt"
+    command: "yarn start"
+  
+  mn-server-http:
+    build: .
+    container_name: mn-server-http
+    image: mn-server-http
     depends_on:
       - postgres
     links:
@@ -16,7 +34,6 @@ services:
     environment:
       PORT: 8080
       STATUS: "prod"
-      TYPE: "mqtt"
     command: "yarn start"
 
   pgadmin:

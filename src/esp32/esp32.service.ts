@@ -26,4 +26,8 @@ export class Esp32Service {
       console.log('error: ', error);
     }
   }
+
+  public getAll(): Promise<Esp32Entity[]> {
+    return this.esp32Repository.find();
+  }
 }
