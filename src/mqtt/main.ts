@@ -1,10 +1,8 @@
 import * as mqtt from 'mqtt';
 import { Esp32Data } from 'src/@types/esp32';
+import config from 'src/configs/deafult.config';
 import { Esp32Service } from 'src/esp32/esp32.service';
 import { connectToDatabase } from './database/connect';
-
-const host = 'cyrilserver.ddns.net';
-const port = '25565';
 
 /**
  * Create and run MQTT client
@@ -12,11 +10,14 @@ const port = '25565';
 export async function MQTTClient() {
   await connectToDatabase();
   const esp = new Esp32Service();
-  const client = mqtt.connect(`mqtt://${host}:${port}`, {
-    clean: true,
-    connectTimeout: 4000,
-    reconnectPeriod: 1000,
-  });
+  const client = mqtt.connect(
+    `mqtt://${config.hosting.url}:${config.hosting.port}`,
+    {
+      clean: config.mqtt.clean,
+      connectTimeout: config.mqtt.connectTimeout,
+      reconnectPeriod: config.mqtt.reconnectPeriod,
+    },
+  );
 
   client.on('connect', () => {
     console.log('Connected');
