@@ -6,13 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Esp32Entity } from './esp32/esp32';
 import config from './configs/deafult.config';
 import { config as dotenvConfig } from 'dotenv';
-import { AppGateway } from './app.gateway';
 
 dotenvConfig();
 
 @Module({
   controllers: [AppController],
-  providers: [AppService, AppGateway],
+  providers: [AppService],
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
