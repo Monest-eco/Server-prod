@@ -25,6 +25,14 @@ export async function MQTTClient() {
     },
   );
 
+  socket.on('connect', () => {
+    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+  });
+
+  socket.on('disconnect', () => {
+    console.log(socket.id); // undefined
+  });
+
   client.on('connect', () => {
     console.log('Connected');
     client.subscribe(['esp32/watt'], () => {

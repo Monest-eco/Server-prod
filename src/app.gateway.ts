@@ -10,35 +10,28 @@ import { Socket, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { Message } from './@types/websockets';
 
-@WebSocketGateway({ namespace: '/data' })
+@WebSocketGateway()
 export class AppGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  @WebSocketServer() server;
+  @WebSocketServer() server: Server;
+
   private logger: Logger = new Logger('AppGateway');
 
-  afterInit(server: Server) {
-    this.logger.log('Initialized !');
+  @SubscribeMessage('msgToServer')
+  handleMessage(client: Socket, payload: string): void {
+    this.server.emit('msgToClient', payload);
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log('Client connected:', client.id);
+  afterInit(server: Server) {
+    this.logger.log('Init');
   }
+
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
-  @SubscribeMessage('message')
-  handleMessage(client: Socket, message: Message): string {
-    this.server
-      .to(message.id)
-      .emit('Websocket-message: watt:', message.watt, '-date:', message.date);
-    return 'Message sent';
-  }
-  @SubscribeMessage('join')
-  handleJoin(client: Socket, id: string): string {
-    client.join(id);
-    client.emit('id', id);
-    return 'Connected';
+  handleConnection(client: Socket, ...args: any[]) {
+    this.logger.log(`Client connected: ${client.id}`);
   }
 }
