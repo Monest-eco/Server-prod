@@ -10,15 +10,15 @@ services:
     links:
       - postgres
     ports:
-      - "8085:8080"
+      - '8085:8080'
     volumes:
       - .:/app
     environment:
       PORT: 8080
-      STATUS: "prod"
-      TYPE: "mqtt"
-    command: "yarn start"
-  
+      STATUS: 'prod'
+      TYPE: 'mqtt'
+    command: 'yarn start'
+
   mn-server-http:
     build: .
     container_name: mn-server-http
@@ -28,13 +28,13 @@ services:
     links:
       - postgres
     ports:
-      - "8080:8080"
+      - '8080:8080'
     volumes:
       - .:/app
     environment:
       PORT: 8080
-      STATUS: "prod"
-    command: "yarn start"
+      STATUS: 'prod'
+    command: 'yarn start'
 
   pgadmin:
     image: dpage/pgadmin4:4.28
@@ -46,19 +46,19 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - "5050:80"
+      - '5050:80'
 
   postgres:
     image: postgres:latest
     container_name: postgres
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5432"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:5432']
       interval: 30s
       timeout: 10s
       retries: 5
     ports:
-      - "5432:5432"
+      - '5432:5432'
     env_file:
       - .env # configure postgres
     volumes:
