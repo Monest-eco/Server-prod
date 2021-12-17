@@ -21,6 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      # This step create a cache for node_modules
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
