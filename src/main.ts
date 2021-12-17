@@ -1,26 +1,15 @@
-import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { devicesName } from './@types/fakeData';
 import { AppModule } from './app.module';
 import { generateFakeData } from './fakeData';
-import { description, version, name } from './../package.json';
 import { MQTTClient } from './mqtt/main';
+import { config } from 'dotenv';
+import { generateSwaggerDoc } from './swagger/swagger';
+import { MonestError } from './errors/monestError';
 
-/**
- * Generate swagger documenation
- * @param app Nest application
- */
-function generateSwaggerDoc(app: INestApplication): void {
-  const config = new DocumentBuilder()
-    .setTitle(name)
-    .setDescription(description)
-    .setVersion(version)
-    .addTag('api')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/swagger', app, document);
-}
+// Get env variables
+config();
+MonestError.checkEnvValue();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,13 +17,16 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 8080);
 }
 
-if (process.env.STATUS === 'data') {
+if (process.env.TYPE === 'data') {
+  console.log('🚀 => Starting fake data...');
   for (const item of devicesName) {
     console.log(`=> Generating data for ${item.name}`);
     generateFakeData(1000, item);
   }
-} else if (process.env.STATUS === 'mqtt') {
+} else if (process.env.TYPE === 'mqtt') {
+  console.log('🚀 => Starting MQTT client...');
   MQTTClient();
 } else {
+  console.log('🚀 => Starting server...');
   bootstrap();
 }

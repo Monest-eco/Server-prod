@@ -1,33 +1,29 @@
 import * as mqtt from 'mqtt';
-
-/**
- * Create and run MQTT server with nest
- */
-// export async function MQTTServer(): Promise<void> {
-//   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-//     MqttAppModule,
-//     {
-//       transport: Transport.MQTT,
-//       options: {
-//         url: 'mqtt://cyrilserver.ddns.net:25565',
-//       },
-//     },
-//   );
-//   app.listen();
-// }
-
-const host = 'cyrilserver.ddns.net';
-const port = '25565';
+import { Esp32Data } from 'src/@types/esp32';
+import config from 'src/configs/deafult.config';
+import { Esp32Service } from 'src/esp32/esp32.service';
+import { connectToDatabase } from './database/connect';
+import { io, Socket } from 'socket.io-client';
+import {
+  ServerToClientEvents,
+  ClientToServerEvents,
+} from '../@types/websockets';
 
 /**
  * Create and run MQTT client
  */
-export function MQTTClient(): void {
-  const client = mqtt.connect(`mqtt://${host}:${port}`, {
-    clean: true,
-    connectTimeout: 4000,
-    reconnectPeriod: 1000,
-  });
+export async function MQTTClient() {
+  await connectToDatabase();
+  const esp = new Esp32Service();
+  const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
+  const client = mqtt.connect(
+    `mqtt://${config.hosting.url}:${config.hosting.port}`,
+    {
+      clean: config.mqtt.clean,
+      connectTimeout: config.mqtt.connectTimeout,
+      reconnectPeriod: config.mqtt.reconnectPeriod,
+    },
+  );
 
   client.on('connect', () => {
     console.log('Connected');
@@ -37,5 +33,10 @@ export function MQTTClient(): void {
   });
   client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString());
+    const data: Esp32Data = {
+      date: new Date(),
+      watt: parseInt(payload.toString(), 10),
+    };
+    esp.create(data);
   });
 }
