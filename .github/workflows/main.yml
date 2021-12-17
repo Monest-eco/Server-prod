@@ -52,6 +52,7 @@ jobs:
     needs: [lint]
     runs-on: ubuntu-latest
     steps:
+    # We are going to use a cache for the nodes module to win some times
       - uses: actions/checkout@v2
       - name: Yarn Setup
         # You may pin to the exact commit or the version.
