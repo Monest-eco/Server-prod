@@ -14,7 +14,7 @@ export class MqttController {
   private connect: Connection;
 
   constructor() {
-    // this.connect = null;
+    this.connect = null;
     this.client = mqtt.connect(
       `mqtt://${config.hosting.url}:${config.hosting.port}`,
       {
