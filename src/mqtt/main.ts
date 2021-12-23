@@ -1,15 +1,14 @@
 import { Esp32Data } from 'src/@types/esp32';
 import { Esp32Service } from 'src/esp32/esp32.service';
-import { connectToDatabase } from './database/connect';
 import { MqttController } from './mqtt';
 
 /**
  * Create and run MQTT client
  */
 export async function MQTTClient() {
-  await connectToDatabase();
-  const esp = new Esp32Service();
   const mqttEspClient = new MqttController();
+  await mqttEspClient.init();
+  const esp = new Esp32Service();
 
   mqttEspClient.onConnect(() => {
     console.log('Connected');
@@ -25,5 +24,9 @@ export async function MQTTClient() {
       watt: parseInt(payload.toString(), 10),
     };
     esp.create(data);
+  });
+
+  process.on('SIGINT', () => {
+    mqttEspClient.end();
   });
 }

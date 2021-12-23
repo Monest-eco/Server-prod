@@ -1,13 +1,20 @@
 import * as mqtt from 'mqtt';
 import config from 'src/configs/deafult.config';
+import { Connection } from 'typeorm';
+import { connectToDatabase } from './database/connect';
 
 /**
  * generic MQTT client
  */
 export class MqttController {
+  // mqtt client
   private client: mqtt.MqttClient;
 
+  // Connection database
+  private connect: Connection;
+
   constructor() {
+    // this.connect = null;
     this.client = mqtt.connect(
       `mqtt://${config.hosting.url}:${config.hosting.port}`,
       {
@@ -18,6 +25,9 @@ export class MqttController {
     );
   }
 
+  public async init() {
+    this.connect = await connectToDatabase();
+  }
   /**
    * Connect to MQTT broker
    * @param callback function to trigger when connected
@@ -41,5 +51,16 @@ export class MqttController {
    */
   public subscribe(topics: string[], callback: () => void) {
     this.client.subscribe(topics, callback);
+  }
+
+  /**
+   * close connection
+   */
+  public end() {
+    this.client = this.client.end();
+    console.log('🚀 => MQTT client connection closed');
+    this.connect.close();
+    console.log('🚀 => Database connection closed');
+    process.exit();
   }
 }
